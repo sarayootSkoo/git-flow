@@ -6,7 +6,8 @@ This repository now includes a simple Next.js dashboard application located in `
 - **Next.js** project with TypeScript and routing.
 - **Material UI** integration for styling.
 - **Recharts** for interactive charting.
-- Fetches real-time gold prices from `https://www.goldapi.io` via an API route.
+- Fetches gold price history from `https://www.goldapi.io` via an API route. The
+  dashboard lets you toggle between the last 24 hours and last 30 days.
 
 ## Running the Dashboard
 1. Install dependencies (requires internet access):
