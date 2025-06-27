@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Box } from '@mui/material';
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts';
 
-interface GoldPriceResponse {
+interface GoldPricePoint {
   price: number;
   time: string;
 }
 
 export default function Home() {
-  const [price, setPrice] = useState<number | null>(null);
-  const [history, setHistory] = useState<Array<{ time: string; price: number }>>([]);
+  const [history, setHistory] = useState<GoldPricePoint[]>([]);
+  const latest = history[history.length - 1];
 
   useEffect(() => {
     fetch('/api/gold-price')
       .then(res => res.json())
-      .then((data: GoldPriceResponse) => {
-        setPrice(data.price);
-        setHistory(h => [...h.slice(-9), { time: data.time, price: data.price }]);
+      .then((data: GoldPricePoint[]) => {
+        setHistory(data);
       })
       .catch(() => {});
   }, []);
@@ -28,7 +34,9 @@ export default function Home() {
       </Typography>
       <Box my={2}>
         <Typography variant="h6">Current Gold Price (USD)</Typography>
-        <Typography variant="body1">{price ? `$${price}` : 'Loading...'}</Typography>
+        <Typography variant="body1">
+          {latest ? `$${latest.price}` : 'Loading...'}
+        </Typography>
       </Box>
       <Box height={300}>
         <ResponsiveContainer width="100%" height="100%">
